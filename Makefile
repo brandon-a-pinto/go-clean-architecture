@@ -7,4 +7,7 @@ run: build
 test:
 	@go test -coverprofile=coverage.out -v ./...
 
+prepare:
+	@cp -r ./cmd/clean-arch/.env.example ./cmd/clean-arch/.env
+
 .PHONY: test
