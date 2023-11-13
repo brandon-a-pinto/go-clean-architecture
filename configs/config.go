@@ -14,12 +14,12 @@ type conf struct {
 	GraphQLServerPort string `mapstructure:"GRAPHQL_SERVER_PORT"`
 }
 
-func LoadConfig(path string) *conf {
+func LoadConfig() *conf {
 	var cfg *conf
 
 	viper.SetConfigName(".env")
 	viper.SetConfigType("env")
-	viper.AddConfigPath(path)
+	viper.AddConfigPath("./configs")
 	viper.AutomaticEnv()
 	if err := viper.ReadInConfig(); err != nil {
 		panic(err)

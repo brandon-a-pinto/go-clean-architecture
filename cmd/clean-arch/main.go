@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	config := configs.LoadConfig("./cmd/clean-arch")
+	config := configs.LoadConfig()
 
 	db, err := sql.Open(config.DBDriver, fmt.Sprintf("%s:%s@%s:%s/%s", config.DBUsername, config.DBPassword, config.DBHost, config.DBPort, config.DBName))
 	if err != nil {

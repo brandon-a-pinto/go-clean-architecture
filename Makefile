@@ -1,5 +1,7 @@
 build:
-	@go build -C ./cmd/clean-arch -o ../../bin/clean-arch
+	@echo "Building application..."
+	@env GOOS=linux CGO_ENABLED=0 go build -o ./bin/clean-arch ./cmd/clean-arch
+	@echo "Done!"
 
 run: build
 	@./bin/clean-arch
@@ -8,6 +10,8 @@ test:
 	@go test -coverprofile=coverage.out -v ./...
 
 prepare:
-	@cp -r ./cmd/clean-arch/.env.example ./cmd/clean-arch/.env
+	@echo "Generating .env file..."
+	@cp -r ./examples/.env.example ./config/.env
+	@echo "Done!"
 
-.PHONY: test
+.PHONY: test, build
