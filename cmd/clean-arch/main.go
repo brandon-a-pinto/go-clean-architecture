@@ -12,9 +12,9 @@ import (
 )
 
 func main() {
-	config := configs.LoadConfig()
+	config := configs.LoadConfigDocker()
 
-	db, err := sql.Open(config.DBDriver, fmt.Sprintf("%s:%s@%s:%s/%s", config.DBUsername, config.DBPassword, config.DBHost, config.DBPort, config.DBName))
+	db, err := sql.Open(config.DBDriver, fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable", config.DBDriver, config.DBUsername, config.DBPassword, config.DBHost, config.DBPort, config.DBName))
 	if err != nil {
 		panic(err)
 	}
@@ -24,7 +24,7 @@ func main() {
 	}
 	defer db.Close()
 
-	server := web.NewWebServer(config.WebServerPort)
+	server := web.NewWebServer(":" + config.WebServerPort)
 	slog.Info("Starting server...")
 	server.Start()
 }
