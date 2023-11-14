@@ -6,14 +6,15 @@ import (
 
 	"github.com/brandon-a-pinto/go-clean-architecture/configs"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/web"
-	"github.com/sagikazarmark/slog-shim"
 
 	_ "github.com/lib/pq"
 )
 
 func main() {
+	// Configuration
 	config := configs.LoadConfigDocker()
 
+	// Database
 	db, err := sql.Open(config.DBDriver, fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable", config.DBDriver, config.DBUsername, config.DBPassword, config.DBHost, config.DBPort, config.DBName))
 	if err != nil {
 		panic(err)
@@ -24,7 +25,8 @@ func main() {
 	}
 	defer db.Close()
 
-	server := web.NewWebServer(":" + config.WebServerPort)
-	slog.Info("Starting server...")
+	// Web Server
+	server := web.NewWebServer(":"+config.WebServerPort, db)
+	fmt.Println("Starting web server on port", config.WebServerPort)
 	server.Start()
 }

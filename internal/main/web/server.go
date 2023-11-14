@@ -1,6 +1,7 @@
 package web
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -8,27 +9,21 @@ import (
 )
 
 type WebServer struct {
+	DB            *sql.DB
 	Router        chi.Router
-	Handlers      map[string]http.HandlerFunc
 	WebServerPort string
 }
 
-func NewWebServer(port string) *WebServer {
+func NewWebServer(port string, db *sql.DB) *WebServer {
 	return &WebServer{
+		DB:            db,
 		Router:        chi.NewRouter(),
-		Handlers:      make(map[string]http.HandlerFunc),
 		WebServerPort: port,
 	}
 }
 
-func (s *WebServer) AddHandler(path string, handler http.HandlerFunc) {
-	s.Handlers[path] = handler
-}
-
 func (s *WebServer) Start() {
 	s.Router.Use(middleware.Logger)
-	for path, handler := range s.Handlers {
-		s.Router.Handle(path, handler)
-	}
+	routes(s.Router, s.DB)
 	http.ListenAndServe(s.WebServerPort, s.Router)
 }
