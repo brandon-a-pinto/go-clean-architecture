@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"database/sql"
 	"time"
 
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/usecase"
@@ -12,13 +11,11 @@ import (
 
 type CreateUserService struct {
 	pb.UnimplementedUserServiceServer
-	DB                *sql.DB
 	CreateUserUsecase usecase.CreateUserUsecase
 }
 
-func NewCreateUserService(db *sql.DB, createUserUsecase usecase.CreateUserUsecase) *CreateUserService {
+func NewCreateUserService(createUserUsecase usecase.CreateUserUsecase) *CreateUserService {
 	return &CreateUserService{
-		DB:                db,
 		CreateUserUsecase: createUserUsecase,
 	}
 }

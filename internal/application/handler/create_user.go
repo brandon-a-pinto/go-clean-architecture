@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"database/sql"
 	"encoding/json"
 	"net/http"
 	"time"
@@ -11,13 +10,11 @@ import (
 )
 
 type CreateUserHandler struct {
-	DB                *sql.DB
 	CreateUserUsecase usecase.CreateUserUsecase
 }
 
-func NewCreateUserHandler(db *sql.DB, createUserUsecase usecase.CreateUserUsecase) *CreateUserHandler {
+func NewCreateUserHandler(createUserUsecase usecase.CreateUserUsecase) *CreateUserHandler {
 	return &CreateUserHandler{
-		DB:                db,
 		CreateUserUsecase: createUserUsecase,
 	}
 }

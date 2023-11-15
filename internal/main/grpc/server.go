@@ -1,7 +1,6 @@
 package grpc
 
 import (
-	"database/sql"
 	"fmt"
 	"net"
 
@@ -13,19 +12,17 @@ import (
 )
 
 type GRPCServer struct {
-	DB             *sql.DB
 	GRPCServerPort string
 }
 
-func NewGRPCServer(port string, db *sql.DB) *GRPCServer {
+func NewGRPCServer(port string) *GRPCServer {
 	return &GRPCServer{
-		DB:             db,
 		GRPCServerPort: port,
 	}
 }
 
-func services(server grpc.ServiceRegistrar, db *sql.DB) {
-	createUserService := service.NewCreateUserService(db, *factory.CreateUserFactory(db))
+func services(server grpc.ServiceRegistrar) {
+	createUserService := service.NewCreateUserService(*factory.CreateUserFactory())
 
 	pb.RegisterUserServiceServer(server, createUserService)
 }
@@ -33,7 +30,7 @@ func services(server grpc.ServiceRegistrar, db *sql.DB) {
 func (s *GRPCServer) Start() {
 	server := grpc.NewServer()
 
-	services(server, s.DB)
+	services(server)
 	reflection.Register(server)
 
 	listen, err := net.Listen("tcp", fmt.Sprintf(":%s", s.GRPCServerPort))

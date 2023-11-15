@@ -1,7 +1,6 @@
 package web
 
 import (
-	"database/sql"
 	"net/http"
 
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/handler"
@@ -11,27 +10,25 @@ import (
 )
 
 type WebServer struct {
-	DB            *sql.DB
 	Router        chi.Router
 	WebServerPort string
 }
 
-func NewWebServer(port string, db *sql.DB) *WebServer {
+func NewWebServer(port string) *WebServer {
 	return &WebServer{
-		DB:            db,
 		Router:        chi.NewRouter(),
 		WebServerPort: port,
 	}
 }
 
-func routes(router chi.Router, db *sql.DB) {
-	createUserHandler := handler.NewCreateUserHandler(db, *factory.CreateUserFactory(db))
+func routes(router chi.Router) {
+	createUserHandler := handler.NewCreateUserHandler(*factory.CreateUserFactory())
 
 	router.Post("/users", createUserHandler.CreateUser)
 }
 
 func (s *WebServer) Start() {
 	s.Router.Use(middleware.Logger)
-	routes(s.Router, s.DB)
+	routes(s.Router)
 	http.ListenAndServe(s.WebServerPort, s.Router)
 }
