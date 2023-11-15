@@ -13,6 +13,11 @@ prepare:
 	@cp -r ./examples/.env.example ./deploy/.env
 	@echo "Done!"
 
+grpc:
+	@echo "Generating gRPC files..."
+	@protoc --go_out=. --go-grpc_out=. ./internal/main/grpc/protofile/*.proto
+	@echo "Done!"
+
 up:
 	@echo "Starting docker-compose..."
 	@cd ./deploy && docker-compose up --remove-orphans -d

@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/brandon-a-pinto/go-clean-architecture/configs"
+	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/grpc"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/web"
 
 	_ "github.com/lib/pq"
@@ -28,5 +29,10 @@ func main() {
 	// Web Server
 	server := web.NewWebServer(":"+config.WebServerPort, db)
 	fmt.Println("Starting web server on port", config.WebServerPort)
-	server.Start()
+	go server.Start()
+
+	// gRPC Server
+	grpc := grpc.NewGRPCServer(config.GRPCServerPort, db)
+	fmt.Println("Starting gRPC server on port", config.GRPCServerPort)
+	grpc.Start()
 }
