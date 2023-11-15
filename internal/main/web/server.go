@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"net/http"
 
+	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/handler"
+	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/factory"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -20,6 +22,12 @@ func NewWebServer(port string, db *sql.DB) *WebServer {
 		Router:        chi.NewRouter(),
 		WebServerPort: port,
 	}
+}
+
+func routes(router chi.Router, db *sql.DB) {
+	createUserHandler := handler.NewCreateUserHandler(db, *factory.CreateUserFactory(db))
+
+	router.Post("/users", createUserHandler.CreateUser)
 }
 
 func (s *WebServer) Start() {

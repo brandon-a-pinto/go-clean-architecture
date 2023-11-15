@@ -8,21 +8,21 @@ import (
 
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/usecase"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/domain/dto"
-	"github.com/brandon-a-pinto/go-clean-architecture/internal/infra/cryptography"
-	"github.com/brandon-a-pinto/go-clean-architecture/internal/infra/repository"
 )
 
-type UserHandler struct {
-	DB *sql.DB
+type CreateUserHandler struct {
+	DB                *sql.DB
+	CreateUserUsecase usecase.CreateUserUsecase
 }
 
-func NewUserHandler(db *sql.DB) *UserHandler {
-	return &UserHandler{
-		DB: db,
+func NewCreateUserHandler(db *sql.DB, createUserUsecase usecase.CreateUserUsecase) *CreateUserHandler {
+	return &CreateUserHandler{
+		DB:                db,
+		CreateUserUsecase: createUserUsecase,
 	}
 }
 
-func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (h *CreateUserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	dto := new(dto.CreateUserInput)
 	err := json.NewDecoder(r.Body).Decode(&dto)
 	if err != nil {
@@ -30,8 +30,7 @@ func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	createUser := usecase.NewCreateUserUsecase(repository.NewUserRepository(h.DB), cryptography.NewBcryptAdapter())
-	output, err := createUser.Exec(r.Context(), time.Second*5, *dto)
+	output, err := h.CreateUserUsecase.Exec(r.Context(), time.Second*5, *dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
