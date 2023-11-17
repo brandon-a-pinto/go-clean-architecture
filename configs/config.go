@@ -2,41 +2,26 @@ package configs
 
 import (
 	"os"
-
-	"github.com/spf13/viper"
+	"strconv"
 )
 
-type conf struct {
-	DBDriver          string `mapstructure:"DB_DRIVER"`
-	DBHost            string `mapstructure:"DB_HOST"`
-	DBPort            string `mapstructure:"DB_PORT"`
-	DBUsername        string `mapstructure:"DB_USERNAME"`
-	DBPassword        string `mapstructure:"DB_PASSWORD"`
-	DBName            string `mapstructure:"DB_NAME"`
-	WebServerPort     string `mapstructure:"WEB_SERVER_PORT"`
-	GRPCServerPort    string `mapstructure:"GRPC_SERVER_PORT"`
-	GraphQLServerPort string `mapstructure:"GRAPHQL_SERVER_PORT"`
+type Conf struct {
+	DBDriver          string
+	DBHost            string
+	DBPort            string
+	DBUsername        string
+	DBPassword        string
+	DBName            string
+	WebServerPort     string
+	GRPCServerPort    string
+	GraphQLServerPort string
+	JWTSecret         string
+	JWTExpiresIn      int
 }
 
-func LoadConfigLocal() *conf {
-	var cfg *conf
-
-	viper.SetConfigName(".env")
-	viper.SetConfigType("env")
-	viper.AddConfigPath("./configs")
-	viper.AutomaticEnv()
-	if err := viper.ReadInConfig(); err != nil {
-		panic(err)
-	}
-	if err := viper.Unmarshal(&cfg); err != nil {
-		panic(err)
-	}
-
-	return cfg
-}
-
-func LoadConfigDocker() *conf {
-	return &conf{
+func LoadConfig() *Conf {
+	exp, _ := strconv.Atoi(os.Getenv("JWT_EXPIRES_IN"))
+	return &Conf{
 		DBDriver:          os.Getenv("DB_DRIVER"),
 		DBHost:            os.Getenv("DB_HOST"),
 		DBPort:            os.Getenv("DB_PORT"),
@@ -46,5 +31,7 @@ func LoadConfigDocker() *conf {
 		WebServerPort:     os.Getenv("WEB_SERVER_PORT"),
 		GRPCServerPort:    os.Getenv("GRPC_SERVER_PORT"),
 		GraphQLServerPort: os.Getenv("GRAPHQL_SERVER_PORT"),
+		JWTSecret:         os.Getenv("JWT_SECRET"),
+		JWTExpiresIn:      exp,
 	}
 }

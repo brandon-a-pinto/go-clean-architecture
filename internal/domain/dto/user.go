@@ -12,3 +12,12 @@ type CreateUserOutput struct {
 	Username    string `json:"username"`
 	DisplayName string `json:"display_name"`
 }
+
+type AuthenticateUserInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type AuthenticateUserOutput struct {
+	AccessToken string `json:"access_token"`
+}

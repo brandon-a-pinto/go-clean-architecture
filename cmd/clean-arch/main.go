@@ -13,7 +13,7 @@ import (
 
 func main() {
 	// Configuration
-	config := configs.LoadConfigDocker()
+	config := configs.LoadConfig()
 
 	// Database
 	db := database.Start(config.DBDriver, config.DBUsername, config.DBPassword, config.DBHost, config.DBPort, config.DBName)

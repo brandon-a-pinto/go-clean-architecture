@@ -10,25 +10,28 @@ import (
 )
 
 type WebServer struct {
-	Router        chi.Router
 	WebServerPort string
 }
 
 func NewWebServer(port string) *WebServer {
 	return &WebServer{
-		Router:        chi.NewRouter(),
 		WebServerPort: port,
 	}
 }
 
-func routes(router chi.Router) {
+func (s *WebServer) routes(router chi.Router) {
 	createUserHandler := handler.NewCreateUserHandler(*factory.CreateUserFactory())
+	authenticateUserHandler := handler.NewAuthenticateUserHandler(*factory.AuthenticateUserFactory())
 
 	router.Post("/users", createUserHandler.CreateUser)
+	router.Post("/users/auth", authenticateUserHandler.AuthenticateUser)
 }
 
 func (s *WebServer) Start() {
-	s.Router.Use(middleware.Logger)
-	routes(s.Router)
-	http.ListenAndServe(s.WebServerPort, s.Router)
+	router := chi.NewRouter()
+	router.Use(middleware.Logger)
+
+	s.routes(router)
+
+	http.ListenAndServe(s.WebServerPort, router)
 }
