@@ -22,3 +22,12 @@ func (r *UserRepository) Save(ctx context.Context, user *entity.User) error {
 	}
 	return nil
 }
+
+func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*entity.User, error) {
+	var user entity.User
+	row := database.DB.QueryRowContext(ctx, "SELECT id, email, username, display_name, password FROM users WHERE email=$1", email)
+	if err := row.Scan(&user.ID, &user.Email, &user.Username, &user.DisplayName, &user.Password); err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
