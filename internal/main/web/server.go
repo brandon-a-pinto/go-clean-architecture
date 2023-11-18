@@ -20,11 +20,13 @@ func NewWebServer(port string) *WebServer {
 }
 
 func (s *WebServer) routes(router chi.Router) {
-	createUserHandler := handler.NewCreateUserHandler(*factory.CreateUserFactory())
-	authenticateUserHandler := handler.NewAuthenticateUserHandler(*factory.AuthenticateUserFactory())
+	userHandler := handler.NewUserHandler(
+		*factory.CreateUserFactory(),
+		*factory.AuthenticateUserFactory(),
+	)
 
-	router.Post("/users", createUserHandler.CreateUser)
-	router.Post("/users/auth", authenticateUserHandler.AuthenticateUser)
+	router.Post("/users", userHandler.CreateUser)
+	router.Post("/users/auth", userHandler.AuthenticateUser)
 }
 
 func (s *WebServer) Start() {
