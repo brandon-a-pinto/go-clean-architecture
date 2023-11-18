@@ -22,9 +22,12 @@ func NewGRPCServer(port string) *GRPCServer {
 }
 
 func services(server grpc.ServiceRegistrar) {
-	createUserService := service.NewCreateUserService(*factory.CreateUserFactory())
+	userService := service.NewUserService(
+		*factory.CreateUserFactory(),
+		*factory.AuthenticateUserFactory(),
+	)
 
-	pb.RegisterUserServiceServer(server, createUserService)
+	pb.RegisterUserServiceServer(server, userService)
 }
 
 func (s *GRPCServer) Start() {
