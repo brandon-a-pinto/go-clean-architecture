@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/brandon-a-pinto/go-clean-architecture/configs"
-	"github.com/brandon-a-pinto/go-clean-architecture/internal/infra/database"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/grpc"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/web"
+	"github.com/brandon-a-pinto/go-clean-architecture/pkg/infra/database"
 
 	_ "github.com/lib/pq"
 )

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/domain/entity"
-	"github.com/brandon-a-pinto/go-clean-architecture/internal/infra/database"
+	"github.com/brandon-a-pinto/go-clean-architecture/pkg/infra/database"
 )
 
 type UserRepository struct{}
