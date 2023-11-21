@@ -1,6 +1,7 @@
 package cryptography
 
 import (
+	"errors"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -26,7 +27,7 @@ func (j *JWTAdapter) Generate(id string) (string, error) {
 
 	tokenString, err := token.SignedString(j.Secret)
 	if err != nil {
-		return "", err
+		return "", errors.New("could not generate jwt token")
 	}
 
 	return tokenString, nil

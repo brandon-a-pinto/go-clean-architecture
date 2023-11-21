@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/helper"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/domain/dto"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/domain/entity"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/domain/protocol"
@@ -27,10 +28,10 @@ func (u *CreateUserUsecase) Exec(c context.Context, timeout time.Duration, input
 
 	user, err := entity.NewUser(input)
 	if err != nil {
-		return nil, err
+		return nil, helper.NewBadRequestError(err)
 	}
 
-	hashedPassword, err := u.bcryptAdapter.Hash(input.Password, 12)
+	hashedPassword, err := u.bcryptAdapter.Hash(user.Password, 12)
 	if err != nil {
 		return nil, err
 	}
