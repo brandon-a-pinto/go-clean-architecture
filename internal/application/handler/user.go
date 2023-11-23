@@ -25,6 +25,17 @@ func NewUserHandler(
 	}
 }
 
+// CreateUser godoc
+// @Summary      Create an user
+// @Description  Creates a new user
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param        request   body   dto.CreateUserInput   true   "User Request"
+// @Success      200  {object}  dto.CreateUserOutput
+// @Failure      400  {object}  helper.ErrorMessage
+// @Failure      500  {object}  helper.ErrorMessage
+// @Router       /users [post]
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	dto := new(dto.CreateUserInput)
 	err := json.NewDecoder(r.Body).Decode(&dto)
@@ -46,6 +57,17 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// AuthenticateUser godoc
+// @Summary      Create a JWT token
+// @Description  Creates a new JWT token for an existing user
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param        request   body   dto.AuthenticateUserInput   true   "User Request"
+// @Success      200  {object}  dto.AuthenticateUserOutput
+// @Failure      401  {object}  helper.ErrorMessage
+// @Failure      500  {object}  helper.ErrorMessage
+// @Router       /users/auth [post]
 func (h *UserHandler) AuthenticateUser(w http.ResponseWriter, r *http.Request) {
 	dto := new(dto.AuthenticateUserInput)
 	err := json.NewDecoder(r.Body).Decode(&dto)

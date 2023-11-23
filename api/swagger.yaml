@@ -1,0 +1,117 @@
+basePath: /
+definitions:
+  dto.AuthenticateUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  dto.AuthenticateUserOutput:
+    properties:
+      access_token:
+        type: string
+    type: object
+  dto.CreateUserInput:
+    properties:
+      display_name:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.CreateUserOutput:
+    properties:
+      display_name:
+        type: string
+      email:
+        type: string
+      username:
+        type: string
+    type: object
+  helper.ErrorMessage:
+    properties:
+      error:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: brandon.amaral9658@gmail.com
+    name: Brandon Pinto
+  description: Go (Golang) Clean Architecture API project with gRPC, PostgreSQL, Docker
+    and more.
+  license:
+    name: GPL-3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+  termsOfService: http://swagger.io/terms/
+  title: Go Clean Architecture
+  version: 0.0.1
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user
+      parameters:
+      - description: User Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateUserOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorMessage'
+      summary: Create an user
+      tags:
+      - Users
+  /users/auth:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new JWT token for an existing user
+      parameters:
+      - description: User Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthenticateUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AuthenticateUserOutput'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/helper.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorMessage'
+      summary: Create a JWT token
+      tags:
+      - Users
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

@@ -18,6 +18,12 @@ grpc:
 	@protoc --go_out=. --go-grpc_out=. ./internal/main/grpc/protofile/*.proto
 	@echo "Done!"
 
+swagger:
+	@echo "Generating swagger files..."
+	swag init -g cmd/clean-arch/main.go
+	@mv ./docs/swagger* ./api/
+	@echo "Done!"
+
 up:
 	@echo "Starting docker-compose..."
 	@cd ./deploy && docker-compose up --remove-orphans -d

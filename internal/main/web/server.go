@@ -7,6 +7,8 @@ import (
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/factory"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+
+	swagger "github.com/swaggo/http-swagger"
 )
 
 type WebServer struct {
@@ -27,6 +29,8 @@ func (s *WebServer) routes(router chi.Router) {
 
 	router.Post("/users", userHandler.CreateUser)
 	router.Post("/users/auth", userHandler.AuthenticateUser)
+
+	router.Get("/docs/*", swagger.Handler(swagger.URL("http://localhost"+s.WebServerPort+"/docs/doc.json")))
 }
 
 func (s *WebServer) Start() {
