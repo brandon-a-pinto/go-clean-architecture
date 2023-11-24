@@ -1,5 +1,5 @@
 # Go Clean Architecture
-Go (Golang) Clean Architecture API project with Chi, PostgreSQL, Docker and more. 
+Go (Golang) Clean Architecture API project with Chi, PostgreSQL, Docker and more.
 
 ## Usage
 ```bash
@@ -12,8 +12,11 @@ sudo make up_build
 ## Tech
 - Golang
 - Chi
+- gRPC
+- GraphQL
 - PostgreSQL
 - Docker
+- Swagger
 - Bcrypt
 - UUID
 - Testify
