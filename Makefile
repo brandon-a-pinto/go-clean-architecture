@@ -18,6 +18,11 @@ grpc:
 	@protoc --go_out=. --go-grpc_out=. ./internal/main/grpc/protofile/*.proto
 	@echo "Done!"
 
+graph:
+	@echo "Generating GraphQL files..."
+	@go run github.com/99designs/gqlgen generate
+	@echo "Done!"
+
 swagger:
 	@echo "Generating swagger files..."
 	swag init -g cmd/clean-arch/main.go
