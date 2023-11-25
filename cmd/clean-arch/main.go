@@ -5,6 +5,7 @@ import (
 
 	"github.com/brandon-a-pinto/go-clean-architecture/configs"
 	_ "github.com/brandon-a-pinto/go-clean-architecture/docs"
+	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/graph"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/grpc"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/web"
 	"github.com/brandon-a-pinto/go-clean-architecture/pkg/infra/database"
@@ -35,12 +36,17 @@ func main() {
 	defer db.Close()
 
 	// Web Server
-	server := web.NewWebServer(":" + config.WebServerPort)
+	webserver := web.NewWebServer(":" + config.WebServerPort)
 	fmt.Println("Starting web server on port", config.WebServerPort)
-	go server.Start()
+	go webserver.Start()
 
 	// gRPC Server
 	grpc := grpc.NewGRPCServer(config.GRPCServerPort)
-	fmt.Println("Starting gRPC server on port", config.GRPCServerPort)
-	grpc.Start()
+	fmt.Println("Starting grpc server on port", config.GRPCServerPort)
+	go grpc.Start()
+
+	// GraphQL Server
+	graphql := graph.NewGraphQLServer(config.GraphQLServerPort)
+	fmt.Println("Starting graphql server on port", config.GraphQLServerPort)
+	graphql.Start()
 }
