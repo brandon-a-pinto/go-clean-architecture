@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/helper"
+	errors "github.com/brandon-a-pinto/go-clean-architecture/internal/application/error"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/domain/dto"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/domain/protocol"
 )
@@ -34,7 +34,7 @@ func (u *AuthenticateUserUsecase) Exec(c context.Context, timeout time.Duration,
 
 	err = u.BcryptAdapter.Compare(user.Password, input.Password)
 	if err != nil {
-		return nil, helper.NewUnauthorizedError(err)
+		return nil, errors.NewUnauthorizedError(err)
 	}
 
 	token, err := u.JWTAdapter.Generate(user.ID.String())

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/helper"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/usecase"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/domain/dto"
+	"github.com/brandon-a-pinto/go-clean-architecture/internal/presentation/helper"
 )
 
 type UserHandler struct {

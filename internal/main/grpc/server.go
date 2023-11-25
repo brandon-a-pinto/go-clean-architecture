@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/service"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/factory"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/grpc/pb"
+	"github.com/brandon-a-pinto/go-clean-architecture/internal/presentation/service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

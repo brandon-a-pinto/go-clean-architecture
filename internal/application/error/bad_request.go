@@ -1,4 +1,4 @@
-package helper
+package error
 
 type BadRequestError struct {
 	err error

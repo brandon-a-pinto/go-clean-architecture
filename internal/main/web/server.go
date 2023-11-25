@@ -3,8 +3,8 @@ package web
 import (
 	"net/http"
 
-	"github.com/brandon-a-pinto/go-clean-architecture/internal/application/handler"
 	"github.com/brandon-a-pinto/go-clean-architecture/internal/main/factory"
+	"github.com/brandon-a-pinto/go-clean-architecture/internal/presentation/handler"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 
